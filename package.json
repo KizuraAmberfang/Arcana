@@ -2,7 +2,7 @@
   "author": "KizuraAmberfang",
   "dependencies": {
     "discord.js": "12.0.2",
-    "request": "3.2.1"
+    "request": "2.81.0"
   },
   "description": "My Arcana Extractor Discord Bot",
   "main": "arcana.js",
