@@ -285,4 +285,3 @@ function arcana(x) {
     return str;
 }
 
-client.login("Njg4MzY0NjA0Mzc1Njk1Mzcz.XmzRAA.olk2boZ6x1Bm8PkuBBFEcfc0Jtw") 
