@@ -75,7 +75,7 @@ function arcana(x) {
             str = '\n:classical_building: \nLa Giustizia';
             break;
         case 9:
-            str = '\n:mount_fukji: \nL\'Eremita';
+            str = '\n:mount_fuji: \nL\'Eremita';
             break;
         case 10:
             str = '\n:wheel_of_dharma:\nLa Ruota';
