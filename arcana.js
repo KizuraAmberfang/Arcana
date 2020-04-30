@@ -20,6 +20,8 @@ function processCommand(receivedMessage) {
     console.log("Command received: " + primaryCommand)
     console.log("Arguments: " + arguments) // There may not be any arguments
 
+    primaryCommand = primaryCommand.toLowerCase();
+    
     switch (primaryCommand) {
         case 'arcana':
             receivedMessage.channel.send(receivedMessage.author.toString() + " " + arcana(0));
