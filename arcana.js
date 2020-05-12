@@ -1,35 +1,35 @@
 const Discord = require('discord.js')
 const client = new Discord.Client()
-
 const mazzi = new Map();
+
 
 client.on('message', (receivedMessage) => {
     if (receivedMessage.author == client.user) { // Prevent bot from responding to its own messages
         return
     }
 
-    if (!receivedMessage.content.startsWith("?")) {
+    if (!receivedMessage.content.startsWith("!")) {
         return
     }
 
     mazzoTrovato = mazzi.get(receivedMessage.guild.id);
 
-    console.log("Verifico se c'e' gia' un mazzo");
     if (!mazzoTrovato) {
-        console.log("Non c'e' un mazzo");
         var major = new Array
         var minor = new Array
         major = ini_maggiore(major);
         minor = ini_minore(minor);
         const mazziConstruct = {
-            mazzoMaggiore: major,
-            mazzoMinore: minor,
-            sine: true
+            mazzoMaggioreSine: major,
+            mazzoMinoreSine: minor,
+            mazzoEtmkUno: major,
+            mazzoEtmkDue: major,
+            sine: true,
+            etemenanki: false
         };
 
         mazzi.set(receivedMessage.guild.id, mazziConstruct);
         mazzoTrovato = mazzi.get(receivedMessage.guild.id);
-        console.log("Mazzo creato");
     }
 
     const serverMazzi = mazzoTrovato;
@@ -40,14 +40,14 @@ client.on('message', (receivedMessage) => {
     let secondaryCommand = 1
     let arguments = splitCommand.slice(1) // All other words are arguments/parameters/options for the command
 
-    console.log("Comando ricevuto: " + primaryCommand)
-    console.log("Arguments: " + arguments) // There may not be any arguments
+    console.log("Comando ricevuto: " + primaryCommand);
+    if (arguments.length > 0)
+        console.log("Arguments: " + arguments); // There may not be any arguments
 
     primaryCommand = primaryCommand.toLowerCase(); //converto il comando principale in lower case
 
     //verifico quanti argomenti ci sono
     if (arguments.length > 0) {
-        console.log("Numero di argomenti: " + arguments.length)
         secondaryCommand = splitCommand[1]
         secondaryCommand = secondaryCommand / 1;
         if (typeof (secondaryCommand) == 'number') {
@@ -57,56 +57,96 @@ client.on('message', (receivedMessage) => {
             else {
                 arguments = splitCommand.slice(2)
             }
-            console.log("Numero di iterazioni " + secondaryCommand)
+            if (secondaryCommand > 50) {
+                secondaryCommand = 50;
+                message.channel.send(message.author.toString() + " \nIl numero massimo di carte pescabili di seguito e' 50");
+            }
         }
     }
 
+    if (arguments.length > 0) {
+        descr = sistemaArguments(arguments);
+    }
+    else descr = "";
+
     switch (primaryCommand) {
         case 'arcana':
-            arcana(0, secondaryCommand, arguments, receivedMessage);
+            arcana(0, secondaryCommand, descr, receivedMessage);
             break;
         case 'minore':
             if (serverMazzi.sine)
-                minore(secondaryCommand, arguments, receivedMessage, serverMazzi);
+                minore_sine(secondaryCommand, descr, receivedMessage, serverMazzi);
             else
-                arcana(2, secondaryCommand, arguments, receivedMessage);
+                arcana(2, secondaryCommand, descr, receivedMessage);
             break;
         case 'maggiore':
             if (serverMazzi.sine)
-                maggiore(secondaryCommand, arguments, receivedMessage, serverMazzi);
+                maggiore_sine(secondaryCommand, descr, receivedMessage, serverMazzi);
+            else if (serverMazzi.etemenanki)
+                maggiore_etmk(secondaryCommand, descr, receivedMessage, serverMazzi);
             else
-                arcana(1, secondaryCommand, arguments, receivedMessage);
+                arcana(1, secondaryCommand, descr, receivedMessage);
+            break;
+        case 'draw_uno':
+            maggiore_etmk_uno(secondaryCommand, descr, receivedMessage, serverMazzi);
+            break;
+        case 'draw_due':
+            maggiore_etmk_due(secondaryCommand, descr, receivedMessage, serverMazzi);
             break;
         case 'shuffle':
             secondaryCommand = splitCommand[1];
             switch (secondaryCommand) {
                 case 'minore':
-                    serverMazzi.mazzoMinore = ini_minore(serverMazzi.mazzoMinore);
+                    serverMazzi.mazzoMinoreSine = ini_minore(serverMazzi.mazzoMinoreSine);
                     receivedMessage.channel.send("Ho rimescolato il mazzo degli arcani minori");
                     break;
                 case 'maggiore':
-                    serverMazzi.mazzoMaggiore = ini_maggiore(serverMazzi.mazzoMaggiore);
+                    if (serverMazzi.sine)
+                        serverMazzi.mazzoMaggioreSine = ini_maggiore(serverMazzi.mazzoMaggioreSine);
+                    else if (serverMazzi.etemenanki) {
+                        serverMazzi.mazzoEtmkUno = ini_maggiore(serverMazzi.mazzoEtmkUno);
+                        serverMazzi.mazzoEtmkDue = ini_maggiore(serverMazzi.mazzoEtmkDue);
+                    }
                     receivedMessage.channel.send("Ho rimescolato il mazzo degli arcani maggiori");
                     break;
                 default:
-                    serverMazzi.mazzoMinore = ini_minore(serverMazzi.mazzoMinore);
-                    serverMazzi.mazzoMaggiore = ini_maggiore(serverMazzi.mazzoMaggiore);
-                    receivedMessage.channel.send("Ho rimescolato i mazzi");
+                    serverMazzi.mazzoMinoreSine = ini_minore(serverMazzi.mazzoMinoreSine);
+                    serverMazzi.mazzoMaggioreSine = ini_maggiore(serverMazzi.mazzoMaggioreSine);
+                    receivedMessage.channel.send("Ho rimescolato tutti i mazzi");
             }
+            break;
         case 'sine':
             if (serverMazzi.sine) {
                 serverMazzi.sine = false;
                 receivedMessage.channel.send("Rimescolamento del mazzo: nessuna regola.");
-                serverMazzi.mazzoMinore = ini_minore(serverMazzi.mazzoMinore);
-                serverMazzi.mazzoMaggiore = ini_maggiore(serverMazzi.mazzoMaggiore);
-                receivedMessage.channel.send("Ho rimescolato i mazzi");
+                serverMazzi.mazzoMinoreSine = ini_minore(serverMazzi.mazzoMinoreSine);
+                serverMazzi.mazzoMaggioreSine = ini_maggiore(serverMazzi.mazzoMaggioreSine);
+                receivedMessage.channel.send("Ho rimescolato i mazzi di Sine Requie");
             }
             else {
                 serverMazzi.sine = true;
+                serverMazzi.etemenanki = false;
                 receivedMessage.channel.send("Rimescolamento del mazzo: Sine Requie.");
-                serverMazzi.mazzoMinore = ini_minore(serverMazzi.mazzoMinore);
-                serverMazzi.mazzoMaggiore = ini_maggiore(serverMazzi.mazzoMaggiore);
-                receivedMessage.channel.send("Ho rimescolato i mazzi");
+                serverMazzi.mazzoMinoreSine = ini_minore(serverMazzi.mazzoMinoreSine);
+                serverMazzi.mazzoMaggioreSine = ini_maggiore(serverMazzi.mazzoMaggioreSine);
+                receivedMessage.channel.send("Ho rimescolato i mazzi di Sine Requie");
+            }
+            break;
+        case 'etemenanki':
+            if (serverMazzi.etemenanki) {
+                serverMazzi.etemenanki = false;
+                receivedMessage.channel.send("Rimescolamento del mazzo: nessuna regola.");
+                serverMazzi.mazzoEtmkUno = ini_maggiore(serverMazzi.mazzoEtmkUno);
+                serverMazzi.mazzoEtmkDue = ini_maggiore(serverMazzi.mazzoEtmkDue);
+                receivedMessage.channel.send("Ho rimescolato i mazzi di Etemenanki");
+            }
+            else {
+                serverMazzi.etemenanki = true;
+                serverMazzi.sine = false;
+                receivedMessage.channel.send("Rimescolamento del mazzo: Etemenanki.");
+                serverMazzi.mazzoEtmkUno = ini_maggiore(serverMazzi.mazzoEtmkUno);
+                serverMazzi.mazzoEtmkDue = ini_maggiore(serverMazzi.mazzoEtmkDue);
+                receivedMessage.channel.send("Ho rimescolato i mazzi di Etemenanki");
             }
             break;
     }
@@ -372,28 +412,68 @@ function arcana(x, n_iter, arguments, message) {
     return;
 }
 
-function maggiore(n_iter, arguments, message, serverMazzi) {
+function maggiore_sine(n_iter, arguments, message, serverMazzi) {
     for (i = 0; i < n_iter; i++) {
-        n = serverMazzi.mazzoMaggiore.length;
+        n = serverMazzi.mazzoMaggioreSine.length;
         if (n == 0) {
-            console.log("Server: " + message.guild.id + "\nIl mazzo e' vuoto, rimescolo");
-            serverMazzi.mazzoMaggiore = ini_maggiore(serverMazzi.mazzoMaggiore);
-            n = serverMazzi.mazzoMaggiore.length;
+            message.channel.send("Il mazzo e' vuoto, rimescolo");
+            serverMazzi.mazzoMaggioreSine = ini_maggiore(serverMazzi.mazzoMaggioreSine);
+            n = serverMazzi.mazzoMaggioreSine.length;
             console.log("Server: " + message.guild.id + "\nCarte nel mazzo maggiori: " + n);
         }
         else {
             console.log("Server: " + message.guild.id + "\nCarte nel mazzo maggiori: " + n);
         }
         n_carta = Math.floor(Math.random() * n);
-        str = serverMazzi.mazzoMaggiore[n_carta];
+        str = serverMazzi.mazzoMaggioreSine[n_carta];
+        message.channel.send(message.author.toString() + " " + arguments + " " + str);
         if (n_carta == 0) {
-            console.log("Server: " + message.guild.id + "\nRimescolo maggiori");
-            serverMazzi.mazzoMaggiore = ini_maggiore(serverMazzi.mazzoMaggiore);
+            message.channel.send("Rimescolo il mazzo dei maggiori");
+            serverMazzi.mazzoMaggioreSine = ini_maggiore(serverMazzi.mazzoMaggioreSine);
         }
         else {
-            serverMazzi.mazzoMaggiore.splice(n_carta, 1);
+            serverMazzi.mazzoMaggioreSine.splice(n_carta, 1);
         }
-        message.channel.send(message.author.toString() + " " + arguments + " " + str);
+    }
+    return;
+}
+
+function maggiore_etmk_uno(n_iter, arguments, message, serverMazzi) {
+    for (i = 0; i < n_iter; i++) {
+        n = serverMazzi.mazzoEtmkUno.length;
+        if (n == 0) {
+            message.channel.send("Il mazzo Uno e' vuoto, rimescolo");
+            serverMazzi.mazzoEtmkUno = ini_maggiore(serverMazzi.mazzoEtmkUno);
+            n = serverMazzi.mazzoEtmkUno.length;
+            console.log("Server: " + message.guild.id + "\nCarte nel mazzo maggiori: " + n);
+        }
+        else {
+            console.log("Server: " + message.guild.id + "\nCarte nel mazzo maggiori: " + n);
+        }
+        n_carta = Math.floor(Math.random() * n);
+        str = serverMazzi.mazzoEtmkUno[n_carta];
+        serverMazzi.mazzoEtmkUno.splice(n_carta, 1);
+        message.channel.send(message.author.toString() + " " + arguments + " \nMazzo Uno" + str);
+    }
+    return;
+}
+
+function maggiore_etmk_due(n_iter, arguments, message, serverMazzi) {
+    for (i = 0; i < n_iter; i++) {
+        n = serverMazzi.mazzoEtmkDue.length;
+        if (n == 0) {
+            message.channel.send("Il mazzo Due e' vuoto, rimescolo");
+            serverMazzi.mazzoEtmkDue = ini_maggiore(serverMazzi.mazzoEtmkDue);
+            n = serverMazzi.mazzoEtmkDue.length;
+            console.log("Server: " + message.guild.id + "\nCarte nel mazzo maggiori: " + n);
+        }
+        else {
+            console.log("Server: " + message.guild.id + "\nCarte nel mazzo maggiori: " + n);
+        }
+        n_carta = Math.floor(Math.random() * n);
+        str = serverMazzi.mazzoEtmkDue[n_carta];
+        serverMazzi.mazzoEtmkDue.splice(n_carta, 1);
+        message.channel.send(message.author.toString() + " " + arguments + " \nMazzo Due" + str);
     }
     return;
 }
@@ -424,28 +504,28 @@ function ini_maggiore(array) {
     return array;
 }
 
-function minore(n_iter, arguments, message, serverMazzi) {
+function minore_sine(n_iter, arguments, message, serverMazzi) {
     for (i = 0; i < n_iter; i++) {
-        n = serverMazzi.mazzoMinore.length;
+        n = serverMazzi.mazzoMinoreSine.length;
         if (n == 0) {
-            console.log("Server: " + message.guild.id + "\nIl mazzo e' vuoto, rimescolo");
-            serverMazzi.mazzoMinore = ini_minore(serverMazzi.mazzoMinore);
-            n = serverMazzi.mazzoMinore.length;
+            message.channel.send("Il mazzo e' vuoto, rimescolo");
+            serverMazzi.mazzoMinoreSine = ini_minore(serverMazzi.mazzoMinoreSine);
+            n = serverMazzi.mazzoMinoreSine.length;
             console.log("Server: " + message.guild.id + "\nCarte nel mazzo minori: " + n);
         }
         else {
             console.log("Server: " + message.guild.id + "\nCarte nel mazzo minori: " + n);
         }
         n_carta = Math.floor(Math.random() * n);
-        str = serverMazzi.mazzoMinore[n_carta];
+        str = serverMazzi.mazzoMinoreSine[n_carta];
+        message.channel.send(message.author.toString() + " " + arguments + " " + str);
         if (n_carta <= 3) {
-            console.log("Server: " + message.guild.id + "\nRimescolo minori");
-            serverMazzi.mazzoMinore = ini_minore(serverMazzi.mazzoMinore);
+            message.channel.send("Rimescolo il mazzo dei minori");
+            serverMazzi.mazzoMinoreSine = ini_minore(serverMazzi.mazzoMinoreSine);
         }
         else {
-            serverMazzi.mazzoMinore.splice(n_carta, 1);
+            serverMazzi.mazzoMinoreSine.splice(n_carta, 1);
         }
-        message.channel.send(message.author.toString() + " " + arguments + " " + str);
     }
     return;
 }
@@ -510,5 +590,13 @@ function ini_minore(array) {
     return array;
 }
 
+function sistemaArguments(array) {
+    n_iter = array.length;
+    var str = "";
+    for (i = 0; i < n_iter; i++) {
+        str = str + " " + array[i];
+    }
+    return str;
+}
 
 client.login(process.env.BOT_TOKEN);
