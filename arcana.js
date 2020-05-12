@@ -1,14 +1,14 @@
 const Discord = require('discord.js')
 const client = new Discord.Client()
-const mazzi = new Map();
 
+const mazzi = new Map();
 
 client.on('message', (receivedMessage) => {
     if (receivedMessage.author == client.user) { // Prevent bot from responding to its own messages
         return
     }
 
-    if (!receivedMessage.content.startsWith("!")) {
+    if (!receivedMessage.content.startsWith("?")) {
         return
     }
 
