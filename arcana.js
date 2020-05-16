@@ -40,10 +40,6 @@ client.on('message', (receivedMessage) => {
     let secondaryCommand = 1
     let arguments = splitCommand.slice(1) // All other words are arguments/parameters/options for the command
 
-    console.log("Comando ricevuto: " + primaryCommand);
-    if (arguments.length > 0)
-        console.log("Arguments: " + arguments); // There may not be any arguments
-
     primaryCommand = primaryCommand.toLowerCase(); //converto il comando principale in lower case
 
     //verifico quanti argomenti ci sono
@@ -59,7 +55,7 @@ client.on('message', (receivedMessage) => {
             }
             if (secondaryCommand > 50) {
                 secondaryCommand = 50;
-                message.channel.send(message.author.toString() + " \nIl numero massimo di carte pescabili di seguito e' 50");
+                receivedMessage.channel.send(receivedMessage.author.toString() + " \nIl numero massimo di carte pescabili di seguito e' 50");
             }
         }
     }
@@ -419,10 +415,8 @@ function maggiore_sine(n_iter, arguments, message, serverMazzi) {
             message.channel.send("Il mazzo e' vuoto, rimescolo");
             serverMazzi.mazzoMaggioreSine = ini_maggiore(serverMazzi.mazzoMaggioreSine);
             n = serverMazzi.mazzoMaggioreSine.length;
-            console.log("Server: " + message.guild.id + "\nCarte nel mazzo maggiori: " + n);
         }
         else {
-            console.log("Server: " + message.guild.id + "\nCarte nel mazzo maggiori: " + n);
         }
         n_carta = Math.floor(Math.random() * n);
         str = serverMazzi.mazzoMaggioreSine[n_carta];
@@ -445,10 +439,6 @@ function maggiore_etmk_uno(n_iter, arguments, message, serverMazzi) {
             message.channel.send("Il mazzo Uno e' vuoto, rimescolo");
             serverMazzi.mazzoEtmkUno = ini_maggiore(serverMazzi.mazzoEtmkUno);
             n = serverMazzi.mazzoEtmkUno.length;
-            console.log("Server: " + message.guild.id + "\nCarte nel mazzo maggiori: " + n);
-        }
-        else {
-            console.log("Server: " + message.guild.id + "\nCarte nel mazzo maggiori: " + n);
         }
         n_carta = Math.floor(Math.random() * n);
         str = serverMazzi.mazzoEtmkUno[n_carta];
@@ -465,10 +455,8 @@ function maggiore_etmk_due(n_iter, arguments, message, serverMazzi) {
             message.channel.send("Il mazzo Due e' vuoto, rimescolo");
             serverMazzi.mazzoEtmkDue = ini_maggiore(serverMazzi.mazzoEtmkDue);
             n = serverMazzi.mazzoEtmkDue.length;
-            console.log("Server: " + message.guild.id + "\nCarte nel mazzo maggiori: " + n);
         }
         else {
-            console.log("Server: " + message.guild.id + "\nCarte nel mazzo maggiori: " + n);
         }
         n_carta = Math.floor(Math.random() * n);
         str = serverMazzi.mazzoEtmkDue[n_carta];
@@ -511,10 +499,6 @@ function minore_sine(n_iter, arguments, message, serverMazzi) {
             message.channel.send("Il mazzo e' vuoto, rimescolo");
             serverMazzi.mazzoMinoreSine = ini_minore(serverMazzi.mazzoMinoreSine);
             n = serverMazzi.mazzoMinoreSine.length;
-            console.log("Server: " + message.guild.id + "\nCarte nel mazzo minori: " + n);
-        }
-        else {
-            console.log("Server: " + message.guild.id + "\nCarte nel mazzo minori: " + n);
         }
         n_carta = Math.floor(Math.random() * n);
         str = serverMazzi.mazzoMinoreSine[n_carta];
