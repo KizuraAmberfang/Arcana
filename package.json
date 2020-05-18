@@ -1,15 +1,17 @@
 {
-  "author": "KizuraAmberfang",
+  "author": "Kizura Amberfang",
   "dependencies": {
-    "discord.js": "12.0.2",
-    "request": "2.81.0",
-    "dblapi.js": "DiscordBotList/dblapi.js"
+    "dblapi.js": "^2.4.0",
+    "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+    "discord.js": "^12.0.2",
+    "winston": "^3.2.1"
   },
   "description": "My Arcana Extractor Discord Bot",
-  "main": "arcana.js",
+  "main": "bot.js",
   "name": "arcana-bot",
   "scripts": {
-    "start": "node arcana.js"
+    "start": "node bot.js"
   },
   "version": "1.0.0"
 }
+
