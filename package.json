@@ -2,7 +2,7 @@
   "author": "KizuraAmberfang",
   "dependencies": {
     "discord.js": "12.0.2",
-    "request": "2.81.0"
+    "request": "2.81.0",
     "dblapi.js": "DiscordBotList/dblapi.js"
   },
   "description": "My Arcana Extractor Discord Bot",
