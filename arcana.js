@@ -514,7 +514,7 @@ function minore_sine(n_iter, arguments, message, serverMazzi) {
         n_carta = Math.floor(Math.random() * n);
         str = serverMazzi.mazzoMinoreSine[n_carta];
         message.channel.send(message.author.toString() + " " + arguments + " " + str);
-        if (n_carta <= 3) {
+        if (n_carta == 0) {
             message.channel.send("Rimescolo il mazzo dei minori");
             serverMazzi.mazzoMinoreSine = ini_minore(serverMazzi.mazzoMinoreSine);
         }
