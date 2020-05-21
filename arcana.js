@@ -22,8 +22,10 @@ client.on('message', (receivedMessage) => {
     if (!receivedMessage.content.startsWith("?")) {
         return
     }
+  
+    const chiaveMazzo = receivedMessage.guild.id + receivedMessage.author.id
 
-    mazzoTrovato = mazzi.get(receivedMessage.guild.id);
+    mazzoTrovato = mazzi.get(chiaveMazzo);
 
     if (!mazzoTrovato) {
         var major = new Array
@@ -39,8 +41,8 @@ client.on('message', (receivedMessage) => {
             etemenanki: false
         };
 
-        mazzi.set(receivedMessage.guild.id, mazziConstruct);
-        mazzoTrovato = mazzi.get(receivedMessage.guild.id);
+        mazzi.set(chiaveMazzo, mazziConstruct);
+        mazzoTrovato = mazzi.get(chiaveMazzo);
     }
 
     const serverMazzi = mazzoTrovato;
@@ -80,13 +82,19 @@ client.on('message', (receivedMessage) => {
         case 'arcana':
             arcana(0, secondaryCommand, descr, receivedMessage);
             break;
+        case 'briscola':
+        case 'bris':
+            briscola(secondaryCommand, descr, receivedMessage);
+            break;
         case 'minore':
+        case 'minor':
             if (serverMazzi.sine)
                 minore_sine(secondaryCommand, descr, receivedMessage, serverMazzi);
             else
                 arcana(2, secondaryCommand, descr, receivedMessage);
             break;
         case 'maggiore':
+        case 'major': 
             if (serverMazzi.sine)
                 maggiore_sine(secondaryCommand, descr, receivedMessage, serverMazzi);
             else if (serverMazzi.etemenanki)
@@ -101,13 +109,16 @@ client.on('message', (receivedMessage) => {
             maggiore_etmk_due(secondaryCommand, descr, receivedMessage, serverMazzi);
             break;
         case 'shuffle':
+        case 'mescola':
             secondaryCommand = splitCommand[1];
             switch (secondaryCommand) {
                 case 'minore':
+                case 'minor': 
                     serverMazzi.mazzoMinoreSine = ini_minore(serverMazzi.mazzoMinoreSine);
                     receivedMessage.channel.send("Ho rimescolato il mazzo degli arcani minori");
                     break;
                 case 'maggiore':
+                case 'major':
                     if (serverMazzi.sine)
                         serverMazzi.mazzoMaggioreSine = ini_maggiore(serverMazzi.mazzoMaggioreSine);
                     else if (serverMazzi.etemenanki) {
@@ -411,6 +422,137 @@ function arcana(x, n_iter, arguments, message) {
                 str = '\n:princess::french_bread:\nRegina di Bastoni';
                 break;
             case 77:
+                str = '\n:crown::french_bread:\nRe di Bastoni';
+                break;
+        }
+        message.channel.send(message.author.toString() + " " + arguments + " " + str);
+    }
+    return;
+}
+
+function briscola(n_iter, arguments, message) {
+
+    for (i = 0; i < n_iter; i++) {
+        n = Math.floor(Math.random() * 40);
+        switch (n) {
+            case 0:
+                str = '\n:one::crossed_swords: \nAsso di Spade';
+                break;
+            case 1:
+                str = '\n:two::crossed_swords: \nDue di Spade';
+                break;
+            case 2:
+                str = '\n:three::crossed_swords: \nTre Spade';
+                break;
+            case 3:
+                str = '\n:four::crossed_swords: \nQuattro di Spade';
+                break;
+            case 4:
+                str = '\n:five::crossed_swords: \nCinque di Spade';
+                break;
+            case 5:
+                str = '\n:six::crossed_swords: \nSei di Spade';
+                break;
+            case 6:
+                str = '\n:seven::crossed_swords: \nSette di Spade';
+                break;
+            case 7:
+                str = '\n:crossed_swords::chess_pawn: \nFante di Spade';
+                break;
+            case 8:
+                str = '\n:horse::crossed_swords: \nCavallo di Spade';
+                break;
+            case 9:
+                str = '\n:crown::crossed_swords: \nRe di Spade';
+                break;
+            case 10:
+                str = '\n:one::beer:\nAsso di Coppe';
+                break;
+            case 11:
+                str = '\n:two::beers:\nDue di Coppe';
+                break;
+            case 12:
+                str = '\n:three::beers:\nTre di Coppe';
+                break;
+            case 13:
+                str = '\n:four::beers:\nQuattro di Coppe';
+                break;
+            case 14:
+                str = '\n:five::beers:\nCinque di Coppe';
+                break;
+            case 15:
+                str = '\n:six::beers:\nSei di Coppe';
+                break;
+            case 16:
+                str = '\n:seven::beers:\nSette di Coppe';
+                break;
+            case 17:
+                str = '\n:beer::chess_pawn:\nFante di Coppe';
+                break;
+            case 18:
+                str = '\n:horse::beer:\nCavallo di Coppe';
+                break;
+            case 19:
+                str = '\n:crown::beer:\nRe di Coppe';
+                break;
+            case 20:
+                str = '\n:one::moneybag:\nAsso di Denari';
+                break;
+            case 21:
+                str = '\n:two::moneybag:\nDue di Denari';
+                break;
+            case 22:
+                str = '\n:three::moneybag:\nTre di Denari';
+                break;
+            case 23:
+                str = '\n:four::moneybag:\nQuattro di Denari';
+                break;
+            case 24:
+                str = '\n:five::moneybag:\nCinque di Denari';
+                break;
+            case 25:
+                str = '\n:six::moneybag:\nSei di Denari';
+                break;
+            case 26:
+                str = '\n:seven::moneybag:\nSette di Denari';
+                break;
+            case 27:
+                str = '\n:moneybag::chess_pawn:\nFante di Denari';
+                break;
+            case 28:
+                str = '\n:horse::moneybag:\nCavallo di Denari';
+                break;
+            case 29:
+                str = '\n:crown::moneybag:\nRe di Denari';
+                break;
+            case 30:
+                str = '\n:one::french_bread:\nAsso di Bastoni';
+                break;
+            case 31:
+                str = '\n:two::french_bread:\nDue di Bastoni';
+                break;
+            case 32:
+                str = '\n:three::french_bread:\nTre di Bastoni';
+                break;
+            case 33:
+                str = '\n:four::french_bread:\nQuattro di Bastoni';
+                break;
+            case 34:
+                str = '\n:five::french_bread:\nCinque di Bastoni';
+                break;
+            case 35:
+                str = '\n:six::french_bread:\nSei di Bastoni';
+                break;
+            case 36:
+                str = '\n:seven::french_bread:\nSette di Bastoni';
+                break;
+            case 37:
+                str = '\n:french_bread::chess_pawn:\nFante di Bastoni';
+                break;
+            case 38:
+                str = '\n:horse::french_bread:\nCavallo di Bastoni';
+                break;
+            case 39:
                 str = '\n:crown::french_bread:\nRe di Bastoni';
                 break;
         }
