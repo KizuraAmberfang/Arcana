@@ -12,6 +12,8 @@ dbl.on('error', e => {
  console.log(`Oops! ${e}`);
 })
 
+client.user.setActivity('?arcana');
+
 const mazzi = new Map();
 
 client.on('message', (receivedMessage) => {
@@ -191,70 +193,70 @@ function arcana(x, n_iter, arguments, message) {
         }
         switch (n) {
             case 0:
-                str = '\n:black_joker: \nIl Matto';
+                str = '\n:black_joker: \n0 - Il Matto';
                 break;
             case 1:
-                str = '\n:mage: \nIl Bagatto';
+                str = '\n:mage: \nI - Il Bagatto';
                 break;
             case 2:
-                str = '\n:woman_singer: \nLa Papessa';
+                str = '\n:woman_singer: \nII - La Papessa';
                 break;
             case 3:
-                str = '\n:ring: \nL\'Imperatrice';
+                str = '\n:ring: \nIII - L\'Imperatrice';
                 break;
             case 4:
-                str = '\n:crown: \nL\'Imperatore';
+                str = '\n:crown: \nIV - L\'Imperatore';
                 break;
             case 5:
-                str = '\n:place_of_worship: \nIl Papa';
+                str = '\n:place_of_worship: \nV - Il Papa';
                 break;
             case 6:
-                str = '\n:revolving_hearts: \nGli Amanti';
+                str = '\n:revolving_hearts: \nVI - Gli Amanti';
                 break;
             case 7:
-                str = '\n:auto_rickshaw: \nIl Carro';
+                str = '\n:auto_rickshaw: \nVII - Il Carro';
                 break;
             case 8:
-                str = '\n:classical_building: \nLa Giustizia';
+                str = '\n:classical_building: \nVIII - La Giustizia';
                 break;
             case 9:
-                str = '\n:mount_fuji: \nL\'Eremita';
+                str = '\n:mount_fuji: \nIX - L\'Eremita';
                 break;
             case 10:
-                str = '\n:wheel_of_dharma:\nLa Ruota';
+                str = '\n:wheel_of_dharma:\nX - La Ruota';
                 break;
             case 11:
-                str = '\n:muscle: \nLa Forza';
+                str = '\n:muscle: \nXI - La Forza';
                 break;
             case 12:
-                str = '\n:upside_down: \nL\'Appeso';
+                str = '\n:upside_down: \nXII - L\'Appeso';
                 break;
             case 13:
-                str = '\n:skull_crossbones: \nLa Morte';
+                str = '\n:skull_crossbones: \nXIII - La Morte';
                 break;
             case 14:
-                str = '\n:sake: \nLa Temperanza';
+                str = '\n:sake: \nXIV - La Temperanza';
                 break;
             case 15:
-                str = '\n:smiling_imp: \nIl Diavolo';
+                str = '\n:smiling_imp: \nXV - Il Diavolo';
                 break;
             case 16:
-                str = '\n:night_with_stars: \nLa Torre';
+                str = '\n:night_with_stars: \nXVI - La Torre';
                 break;
             case 17:
-                str = '\n:sparkles: \nLe Stelle';
+                str = '\n:sparkles: \nXVII - Le Stelle';
                 break;
             case 18:
-                str = '\n:crescent_moon: \nLa Luna';
+                str = '\n:crescent_moon: \nXVIII - La Luna';
                 break;
             case 19:
-                str = '\n:sunny: \nIl Sole';
+                str = '\n:sunny: \nXIX - Il Sole';
                 break;
             case 20:
-                str = '\n:scales: \nIl Giudizio';
+                str = '\n:scales: \nXX - Il Giudizio';
                 break;
             case 21:
-                str = '\n:earth_africa: \nIl Mondo';
+                str = '\n:earth_africa: \nXXI - Il Mondo';
                 break;
             case 22:
                 str = '\n:one::crossed_swords: \nAsso di Spade';
