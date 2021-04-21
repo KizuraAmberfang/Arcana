@@ -12,7 +12,7 @@ dbl.on('error', e => {
  console.log(`Oops! ${e}`);
 })
 
-//client.user.setActivity('?arcana');
+// client.user.setActivity('?arcana');
 
 const mazzi = new Map();
 
