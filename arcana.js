@@ -640,7 +640,7 @@ function ini_maggiore(array) {
             '\n:smiling_imp: \nXV - Il Diavolo',
             '\n:night_with_stars: \nXVI - La Torre',
             '\n:sparkles: \nXVII - Le Stelle',
-            '\n:crescent_moon: \nXVIIILa Luna',
+            '\n:crescent_moon: \nXVIII - La Luna',
             '\n:sunny: \nXIX - Il Sole',
             '\n:scales: \nXX - Il Giudizio',
             '\n:earth_africa: \nXXI - Il Mondo'];
