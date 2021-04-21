@@ -12,8 +12,6 @@ dbl.on('error', e => {
  console.log(`Oops! ${e}`);
 })
 
-// client.user.setActivity('?arcana');
-
 const mazzi = new Map();
 
 client.on('message', (receivedMessage) => {
@@ -174,7 +172,8 @@ client.on('message', (receivedMessage) => {
     });
 
 client.on('ready', () => {
-    console.log("Connected as " + client.user.tag)
+    console.log("Connected as " + client.user.tag);
+    client.user.setActivity('?arcana');
 })
 
 function arcana(x, n_iter, arguments, message) {
@@ -631,7 +630,7 @@ function ini_maggiore(array) {
             '\n:revolving_hearts: \nVI - Gli Amanti',
             '\n:auto_rickshaw: \nVII - Il Carro',
             '\n:classical_building: \nVIII - La Giustizia',
-            '\n:mount_fuji: \nLIX - \'Eremita',
+            '\n:mount_fuji: \nIX - L\'Eremita',
             '\n:wheel_of_dharma:\nX - La Ruota',
             '\n:muscle: \nXI - La Forza',
             '\n:upside_down: \nXII - L\'Appeso',
