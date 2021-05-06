@@ -210,7 +210,7 @@ function arcana(x, n_iter, arguments, message) {
                 str = '\n:place_of_worship: \nV - Il Papa';
                 break;
             case 6:
-                str = '\n:revolving_hearts: \nVI - Gli Amanti';
+                str = '\n:revolving_hearts: \nVI - L\'Innamorato';
                 break;
             case 7:
                 str = '\n:auto_rickshaw: \nVII - Il Carro';
@@ -627,7 +627,7 @@ function ini_maggiore(array) {
             '\n:ring: \nIII - L\'Imperatrice',
             '\n:crown: \nIV - L\'Imperatore',
             '\n:place_of_worship: \nV - Il Papa',
-            '\n:revolving_hearts: \nVI - Gli Amanti',
+            '\n:revolving_hearts: \nVI - L\'Innamorato',
             '\n:auto_rickshaw: \nVII - Il Carro',
             '\n:classical_building: \nVIII - La Giustizia',
             '\n:mount_fuji: \nIX - L\'Eremita',
