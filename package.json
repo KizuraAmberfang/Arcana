@@ -7,10 +7,10 @@
     "winston": "^3.2.1"
   },
   "description": "My Arcana Extractor Discord Bot",
-  "main": "bot.js",
+  "main": "arcana.js",
   "name": "arcana-bot",
   "scripts": {
-    "start": "node bot.js"
+    "start": "node arcana.js"
   },
   "version": "1.1.1"
 }
