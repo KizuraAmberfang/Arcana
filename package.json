@@ -3,7 +3,8 @@
   "dependencies": {
     "dblapi.js": "^2.4.0",
     "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
-    "discord.js": "^12.0.2",
+    "discord.js": "^14.7.1",
+    "dotenv": "^16.0.3",
     "winston": "^3.2.1"
   },
   "description": "My Arcana Extractor Discord Bot",
@@ -12,6 +13,14 @@
   "scripts": {
     "start": "node arcana.js"
   },
-  "version": "1.1.1"
+  "version": "1.1.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KizuraAmberfang/Arcana.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KizuraAmberfang/Arcana/issues"
+  },
+  "homepage": "https://github.com/KizuraAmberfang/Arcana#readme"
 }
-
