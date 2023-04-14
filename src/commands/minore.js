@@ -1,7 +1,7 @@
 const {SlashCommandBuilder} = require('discord.js');
 
 const {arcani} = require("../arcani/arcani.js");
-const { estraiMinore } = require('../common.js');
+const { estraiMinore, getMazzo } = require('../common.js');
 
 module.exports = {
     data: new SlashCommandBuilder()

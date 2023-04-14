@@ -14,11 +14,14 @@ const mazzi = new Map();
 // mazzi [id - gilde]
 
 function newMazzo() {
+    console.log("Non ho un mazzo");
     major = arcani.slice(0, 22);
     minor = arcani.slice(22, 78);
     const mazzo = {
         carteMaj : major,
         carteMin : minor,
+        lastCardMaj : "",
+        lastCardMin : "",
         sine : true,
     }
     return mazzo; 
@@ -53,16 +56,19 @@ function newUser(id, guild, channel) {
 
 function getMazzo(id, guild, channel) {
     const guilds = mazzi.get(id);
+    console.log("gilde: ", guilds);
     if (!guilds) {
         return (newUser(id, guild, channel));
     }
     const channels = guilds.get(guild);
+    console.log("channel: ", channels)
     if (!channels) {
         return (newGuild(guilds, guild, channel));
     }
     const mazzo = channels.get(channel);
+    console.log("mazzo: ", mazzo)
     if (!mazzo) {
-        return (newMazzo(channels, channel))
+        return (newChannel(channels, channel))
     }
     return (mazzo);
 }
@@ -78,7 +84,8 @@ function estraiMaggiore(mazzo) {
     else {
         nCarta = Math.floor(Math.random() * n)
         card = mazzo.carteMaj[nCarta];
-        message += `${card.icon}\n${card.card}`
+        mazzo.lastCardMaj = `${card.icon} - ${card.card}`;
+        message += `${card.icon}\n${card.card}`;
         if (nCarta == 0) {
             message += ("\nRimescolo il mazzo dei maggiori");
             mazzo.carteMaj = arcani.slice(0, 22);
@@ -100,10 +107,11 @@ function estraiMinore(mazzo) {
     else {
         nCarta = Math.floor(Math.random() * n)
         card = mazzo.carteMin[nCarta];
-        message += `${card.icon}\n${card.card}`
+        mazzo.lastCardMin = `${card.icon} - ${card.card}`;
+        message += `${card.icon}\n${card.card}`;
         if (nCarta == 0) {
             message += ("\nRimescolo il mazzo dei minori");
-            mazzo.carteMin = arcani.slice(0, 22);
+            mazzo.carteMin = arcani.slice(22, 76);
         } else {
         mazzo.carteMin.splice(nCarta, 1);
         }

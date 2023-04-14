@@ -10,7 +10,6 @@ module.exports = {
     async execute(interaction) {
         message = 'Error';
         const mazzo = getMazzo(interaction.user.id, interaction.guildId, interaction.channelId);
-        console.log(mazzo.carteMaj);
         if (!mazzo.sine) {
             n = Math.floor(Math.random() * 22);
             console.log(n);
